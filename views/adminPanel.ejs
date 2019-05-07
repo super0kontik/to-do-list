@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h2>Привет, <%=user.name%></h2>
+    <table style='border-spacing:5px'>
+      <tr>
+        <th>ID</th>
+        <th>Профиль</th>
+        <th>Доступ</th>
+        <th>Действия</th>
+      </tr>
+      <%users.forEach((item)=>{%>
+      <tr>
+        <td><%=item.dataValues.id%></td>
+        <td><a href="http://localhost:3000/user/<%=item.dataValues.id%>" > <%=item.dataValues.name %></a></td>
+        <td><%=item.dataValues.access%></td>
+        <td>
+            <button type="button" onclick="delUser(<%=`'${String(item.dataValues.id)}`%>)'" name="button">Удалить</button>
+            <button type="button" onclick='changeAccess(<%=`"${String(item.dataValues.id)}"`%>)' name="button">Изменить доступ</button>
+        </td>
+      </tr>
+      <%})%>
+    </table>
+    <script src="../javascripts/admin.js" ></script>
+  </body>
+</html>

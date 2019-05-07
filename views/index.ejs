@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Todo</title>
+  </head>
+  <body>
+    <h1>ToDo</h1>
+    <% if(user.name!==null){ %>
+    <h2>Привет, <%=user.name%></h2>
+    <a href="http://localhost:3000/auth/logout">Выйти</a>
+    <%}else{%>
+      <a href="http://localhost:3000/auth/login">Вход</a>
+    <%}%>
+        <a href="http://localhost:3000/">Главная</a>
+    <%if(user.access==10){%>
+        <a href="http://localhost:3000/admin">Админ-панель</a>
+    <%}%>
+        <form class="" action="/search" method="get">
+            <input type="search" id='sForm' onkeyup="handlePress()" name="q" placeholder="Поиск. 3 символа минимум">
+            <input type="submit" id='sButton' disabled name="" value="Искать">
+        </form>
+        <br>
+    <h2><%= name%></h2>
+    <% users.forEach((it,index)=>{%>
+      <h3><%= it.dataValues.name %></h3>
+      <ol>
+          <% it.dataValues.Tasks.forEach((item)=>{ %>
+            <div id="div<%= item.dataValues.id%>">
+            <li id="li<%= item.dataValues.id%>" <% if(item.dataValues.done ==true){%> style='text-decoration:line-through' <%}%> > <%if(user!== null && (user.access==10|| user.id == it.dataValues.id)){%> <input type="checkbox" onclick="checkTask(<%= item.dataValues.id%>)" <% if(item.dataValues.done){ %> checked <% } %> > <%}%> <%= item.dataValues.content %></li>
+              <%if(user.access==10|| user.id == it.dataValues.id){%> <input type="submit" onclick="deleteTask(<%= item.dataValues.id%>)" value="Удалить"><%}%>
+            </div>
+          <%})%>
+      </ol>
+        <%if(user!== null && (user.access==10|| user.id == it.dataValues.id)){%>
+          <form class="" action="/newTask/<%=it.dataValues.id%>" method="post">
+              <input type="hidden" name="id" value="<%=it.dataValues.id%>">
+              <input type="text" name="content" placeholder="Текст задания">
+              <input type="submit" name="" value="Добавить">
+          </form> <%}%>
+    <%})%>
+    <script type="text/javascript" src="javascripts/common.js"></script>
+  </body>
+</html>

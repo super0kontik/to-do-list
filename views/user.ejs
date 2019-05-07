@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Todo for <%=name%></title>
+  </head>
+  <body>
+    <h1>ToDo </h1>
+    <% if(userName.name!==null){ %>
+    <h2>Привет, <%=userName.name%></h2>
+    <br>
+    <a href="http://localhost:3000/auth/logout">Выйти</a>
+    <%}else{%>
+      <a href="http://localhost:3000/auth/login">Вход</a>
+    <%}%>
+        <a href="http://localhost:3000/">Главная</a>
+    <%if(userName.access==10){%>
+        <a href="http://localhost:3000/admin">Админ-панель</a>
+    <%}%>
+        <form class="" action="/search" method="get">
+            <input type="search" id='sForm' onkeyup="handlePress()" name="q" placeholder="Поиск. 3 символа минимум">
+            <input type="submit" id='sButton' disabled name="" value="Искать">
+        </form>
+        <br>
+        <form  method="get">
+          <label for="filter">Сортировка:</label>
+          <select class="" name="filter">
+            <option <% if(filter =='all'){%> selected <%}%>value="all">Все</option>
+            <option <% if(filter =='done'){%> selected <%}%>value="done">Выполненные</option>
+            <option <% if(filter =='undone'){%> selected <%}%>value="undone">Невыполненные</option>
+          </select>
+          <br>
+          <label for="page">Страница:</label>
+          <select class="" name="page">
+            <%for (var i = 1; i <= amount; i++) {%>
+              <option <% if(page==i){%> selected <%}%>value="<%=i%>"><%=i%></option>
+            <%}%>
+          </select>
+          <br>
+          <input type="submit" name="" value="Сортировать">
+        </form>
+      <h3><%= name %></h3>
+      <ol>
+          <% user.dataValues.Tasks.forEach((item)=>{ %>
+            <div id="div<%= item.dataValues.id%>">
+            <li id="li<%= item.dataValues.id%>" <% if(item.dataValues.done ==true){%> style='text-decoration:line-through' <%}%> > <input type="checkbox" onclick="checkTask(<%= item.dataValues.id%>)" <% if(item.dataValues.done){ %> checked <% } %> ><%= item.dataValues.content %></li>
+              <input type="submit" onclick="deleteTask(<%= item.dataValues.id%>)" value="Удалить">
+            </div>
+          <%})%>
+      </ol>
+          <form class="" action="http://localhost:3000/newTask/<%=user.dataValues.id%>" method="post">
+              <input type="hidden" name="id" value="<%=user.dataValues.id%>">
+              <input type="text" name="content" placeholder="Текст задания">
+              <input type="submit" name="" value="Добавить">
+          </form>
+    <script type="text/javascript" src="../javascripts/common.js"></script>
+  </body>
+</html>
