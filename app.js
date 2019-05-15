@@ -63,7 +63,7 @@ function checkTokens(req,res,next) {
   if(req.session.passport===undefined){
     console.log('no user');
     return res.render('login')
-  }else if (req.session.passport.user.accessToken===undefined) {
+  }else if (req.session.passport.user.accessToken===undefined||req.session.passport.user.accessToken===undefined) {
     console.log('probably oauth');
     return next()
   }else {
